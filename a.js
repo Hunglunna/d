@@ -25,7 +25,7 @@ function setupSheet() {
 function setTelegramWebhook() {
   var url = "https://api.telegram.org/bot8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88/setWebhook";
   var payload = {
-    "url": "https://script.google.com/macros/s/AKfycbxFxDSAzKY0YqRgv78KbYw0Qcg7frfSPuDPUSe4ZhxYqptCRLgAf06VN7_yooaLxMo8/exec"
+    "url": "https://script.google.com/macros/s/AKfycbxjBSBFk_Y1LKwjUVG7AdesufJqvCKITsLl-8OJIewy_OKqS3hEpD5wbniXM-ZXSP0H/exec"
   };
   
   var options = {
@@ -577,7 +577,7 @@ function clearUserData(userId) {
 
 function sendFileToTelegram(chatId) {
   
-  var fileUrl = "https://drive.google.com/file/d/1Ml1q64Q2oKbn-JTlcFhv4ukeFpDH_YXM/view?usp=sharing"; 
+  var fileUrl = "https://raw.githubusercontent.com/Hunglunna/d/refs/heads/master/a.js"; 
   var message = "📎 Tải xuống tệp tin [tại đây](" + fileUrl + ")"; // Markdown link
 
   var url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
