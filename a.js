@@ -1,4 +1,4 @@
-// Version 1.0.0 - Được phát triển vào ngày 01/05/2025. 
+// Version 1.0.0 - Được phát triển vào ngày 14/05/2025. 
 var TOKEN = "8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88";
 var SHEET_ID = "188d1O8r5nc3hzXADyvBNz_fLFfr6hUt626F2IlhMRrk";
 var SHEET_NAME = "Lương";
@@ -25,7 +25,7 @@ function setupSheet() {
 function setTelegramWebhook() {
   var url = "https://api.telegram.org/bot8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88/setWebhook";
   var payload = {
-    "url": "https://script.google.com/macros/s/AKfycbxjBSBFk_Y1LKwjUVG7AdesufJqvCKITsLl-8OJIewy_OKqS3hEpD5wbniXM-ZXSP0H/exec"
+    "url": "https://script.google.com/macros/s/AKfycbyaM-cx1O89olQA3lrNtV8L4dzAtuBNREDQCPKIzToN19c3WhKY6cmiMXXgWbYuFVZj/exec"
   };
   
   var options = {
@@ -236,8 +236,11 @@ function doPost(e) {
 if (text === "/file") {
     sendFileToTelegram(chatId);
   }
-}
 
+if (text === "/cre") {
+    sendFileToTelegramcre(chatId);
+}
+}
 
 // Hàm để tránh lỗi do thiếu doGet
 function doGet(e) {
@@ -595,6 +598,37 @@ function sendFileToTelegram(chatId) {
 
   UrlFetchApp.fetch(url, options);
 }
+
+function sendFileToTelegramcre(chatId) {
+  
+  var imageUrl = "https://scontent.fdad3-3.fna.fbcdn.net/v/t39.30808-6/494204052_624596410581026_6226721129955872958_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGzO1dYg3s0edSa0ltE2GmTg58Y-FHles2Dnxj4UeV6zYHEFxZIU-CNDsdKmJe0yDchZ7sOcYqK4Fpga3YJmPLN&_nc_ohc=gXvRSnSvCggQ7kNvwFo4Vxw&_nc_oc=AdknfZ375KFtehESg50rN838RiNw4vy-crEHqnHMQJ_okGN7yZ7IDXfZjrAHpZ2bEP0ouH38qB2Ihb9nom88zS9Z&_nc_zt=23&_nc_ht=scontent.fdad3-3.fna&_nc_gid=lTPGkypHb5mBt6_3f02Rig&oh=00_AfJOEBNbFi2kwHZgd1Mz0slkBT0a3bB4BFLS-HBGy2GHvA&oe=682A7411"; // Đổi thành link ảnh thực tế
+  var buttonUrl = "https://t.me/sfdfsdsbot/hunglunna"; // Nút bấm đến link này
+
+  var payload = {
+    chat_id: chatId,
+    photo: imageUrl,
+    caption: "",
+    parse_mode: "Markdown",
+    reply_markup: {
+      inline_keyboard: [[
+        {
+          text: "LAUNCH",
+          url: buttonUrl
+        }
+      ]]
+    }
+  };
+
+  var options = {
+    method: "post",
+    contentType: "application/json",
+    payload: JSON.stringify(payload)
+  };
+
+  var url = `https://api.telegram.org/bot${TOKEN}/sendPhoto`;
+  UrlFetchApp.fetch(url, options);
+}
+
 
 
 function sendMessage(chatId, text) {
