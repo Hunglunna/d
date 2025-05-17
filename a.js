@@ -25,7 +25,7 @@ function setupSheet() {
 function setTelegramWebhook() {
   var url = "https://api.telegram.org/bot8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88/setWebhook";
   var payload = {
-    "url": "https://script.google.com/macros/s/AKfycbyaM-cx1O89olQA3lrNtV8L4dzAtuBNREDQCPKIzToN19c3WhKY6cmiMXXgWbYuFVZj/exec"
+    "url": "https://script.google.com/macros/s/AKfycbzPxVwsP8sCVbaZDS94dyqEQkdHP6RlZFncDLMfYDhwjrkwCaRkQkae4aN9dTH57sJF/exec"
   };
   
   var options = {
@@ -230,7 +230,7 @@ function doPost(e) {
   }
     else if (text == "/off") {
   recordHours(chatId, userId, 0);
-  sendMessage(chatId, "📌 Đã ghi nhận ngày nghỉ (0 giờ, 0 VND).");
+  
     
 }
 if (text === "/file") {
