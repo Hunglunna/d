@@ -1,4 +1,4 @@
-// Version 1.1.0 - Được phát triển vào ngày 25/05/2025. 
+// Version 1.1.1 - Được phát triển vào ngày 25/05/2025. 
 var TOKEN = "8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88";
 var SHEET_ID = "188d1O8r5nc3hzXADyvBNz_fLFfr6hUt626F2IlhMRrk";
 var SHEET_NAME = "Lương";
@@ -25,7 +25,7 @@ function setupSheet() {
 function setTelegramWebhook() {
   var url = "https://api.telegram.org/bot8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88/setWebhook";
   var payload = {
-    "url": "https://script.google.com/macros/s/AKfycbzJaX13Ss2S0bGD42isAgAQ4j25dZ-bHphvB6qd07whfeemgJcCdmQAPPFP3jWYot4B/exec"
+    "url": "https://script.google.com/macros/s/AKfycbxTeASkaxqmSc0Mpss82MN5d0t7-H1BXs1kODRgNLtZVtZTxG7sQ03LXtoBfTBWCEQo/exec"
   };
   
   var options = {
@@ -143,7 +143,46 @@ function t2() {
     }
   });
 }
+function checkSalaryTarget(chatId, userId) {
+  var sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+  var data = sheet.getDataRange().getValues();
+  var now = new Date();
+  var tz = Session.getScriptTimeZone();
 
+  var thisMonth = Utilities.formatDate(now, tz, "MM");
+  var thisYear = Utilities.formatDate(now, tz, "yyyy");
+
+  var totalHours = 0;
+  var totalSalary = 0;
+
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][0]) === String(userId)) {
+      var entryDate = new Date(data[i][1]);
+      var month = Utilities.formatDate(entryDate, tz, "MM");
+      var year = Utilities.formatDate(entryDate, tz, "yyyy");
+      if (month === thisMonth && year === thisYear) {
+        totalHours += Number(data[i][2]);
+        totalSalary += Number(data[i][3]);
+      }
+    }
+  }
+
+  var message = "";
+  if (totalHours >= 300 || totalSalary >= 4800000) {
+    message =
+      `🎉 Chúc mừng bạn đã đạt chỉ tiêu tháng!\n` +
+      `🕒 Tổng giờ: ${totalHours}\n` +
+      `💰 Tổng lương: ${totalSalary.toLocaleString()} VND\n` +
+      `Hãy tiếp tục phát huy nhé! 🚀`;
+  } else {
+    message =
+      `💡 Bạn chưa đạt chỉ tiêu tháng (300 giờ hoặc 4,800,000 VND).\n` +
+      `🕒 Giờ hiện tại: ${totalHours}/300\n` +
+      `💰 Lương hiện tại: ${totalSalary.toLocaleString()}/4,800,000 VND\n` +
+      `Cố gắng hơn ở những ngày tiếp theo nhé! 💪`;
+  }
+  sendMessage(chatId, message);
+}
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
   var message = data.message;
@@ -167,7 +206,8 @@ function doPost(e) {
       "🔹 `/tru <số tiền>` – Trừ lương\n"+
       "🔹 `/off` – Nghĩ\n" +
       "🔹 `/bieudo` – Xuất ảnh biểu đồ các tháng\n" +
-      "🔹 `/bieudoht` – Xuất ảnh biểu đồ hiện tại"
+      "🔹 `/bieudoht` – Xuất ảnh biểu đồ hiện tại\n" +
+      "🔹 `/kpi` – chỉ tiêu hàng tháng"
     );
   } else if (text.startsWith("/luong ")) {
     var hours = parseFloat(text.split(" ")[1]);
@@ -228,6 +268,8 @@ function doPost(e) {
     bieudoht(chatId, userId);
   }else if (text === "/bieudo") {
     bieudo(chatId, userId);
+  }else if (text === "/kpi") {
+    checkSalaryTarget(chatId, userId);
   }
 }
 function bieudo(chatId, userId) {
