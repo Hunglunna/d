@@ -1,4 +1,4 @@
-// Version 1.0.0 - Được phát triển vào ngày 14/05/2025. 
+// Version 1.1.0 - Được phát triển vào ngày 25/05/2025. 
 var TOKEN = "8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88";
 var SHEET_ID = "188d1O8r5nc3hzXADyvBNz_fLFfr6hUt626F2IlhMRrk";
 var SHEET_NAME = "Lương";
@@ -25,7 +25,7 @@ function setupSheet() {
 function setTelegramWebhook() {
   var url = "https://api.telegram.org/bot8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88/setWebhook";
   var payload = {
-    "url": "https://script.google.com/macros/s/AKfycbzPxVwsP8sCVbaZDS94dyqEQkdHP6RlZFncDLMfYDhwjrkwCaRkQkae4aN9dTH57sJF/exec"
+    "url": "https://script.google.com/macros/s/AKfycbzJaX13Ss2S0bGD42isAgAQ4j25dZ-bHphvB6qd07whfeemgJcCdmQAPPFP3jWYot4B/exec"
   };
   
   var options = {
@@ -154,22 +154,21 @@ function doPost(e) {
   if (text.startsWith("/start")) {
     setupSheet();
     sendMessage(chatId, "📌 *Lệnh Menu:*\n\n" +
-  "🔹 `/start` – Bắt đầu\n" +
-  "🔹 `/luong <số giờ>` – Thêm giờ làm\n" +
-  "🔹 `/tl` – Tổng lương từ khi dùng bot\n" +
-  "🔹 `/homqua` – Lương hôm qua\n" +
-  "🔹 `/reset` – Đặt lại dữ liệu\n" +
-  "🔹 `/thongke` – Thống kê trong tháng\n" +
-  "🔹 `/edit <ngày>(DD,DD/MM,DD/MM/YYYY) <số giờ>` – Chỉnh sửa giờ\n" +
-  "🔹 `/xoa <ngày>(DD,DD/MM,DD/MM/YYYY)` – Xóa giờ\n" +
-  "🔹 `/export` – Xuất CSV\n" +
-  "🔹 `/odx` – Bị phạt (-100k, -6.25 giờ)\n" +
-  "🔹 `/tru <số tiền>` – Trừ lương\n"+
-  "🔹 `/off` – Nghĩ"
-);
-
-
-
+      "🔹 `/start` – Bắt đầu\n" +
+      "🔹 `/luong <số giờ>` – Thêm giờ làm\n" +
+      "🔹 `/tl` – Tổng lương từ khi dùng bot\n" +
+      "🔹 `/homqua` – Lương hôm qua\n" +
+      "🔹 `/reset` – Đặt lại dữ liệu\n" +
+      "🔹 `/thongke` – Thống kê trong tháng\n" +
+      "🔹 `/edit <ngày>(DD,DD/MM,DD/MM/YYYY) <số giờ>` – Chỉnh sửa giờ\n" +
+      "🔹 `/xoa <ngày>(DD,DD/MM,DD/MM/YYYY)` – Xóa giờ\n" +
+      "🔹 `/export` – Xuất CSV\n" +
+      "🔹 `/odx` – Bị phạt (-100k, -6.25 giờ)\n" +
+      "🔹 `/tru <số tiền>` – Trừ lương\n"+
+      "🔹 `/off` – Nghĩ\n" +
+      "🔹 `/bieudo` – Xuất ảnh biểu đồ các tháng\n" +
+      "🔹 `/bieudoht` – Xuất ảnh biểu đồ hiện tại"
+    );
   } else if (text.startsWith("/luong ")) {
     var hours = parseFloat(text.split(" ")[1]);
     if (!isNaN(hours)) {
@@ -177,7 +176,6 @@ function doPost(e) {
     } else {
       sendMessage(chatId, "⚠ Vui lòng nhập số giờ hợp lệ!");
     }
-
   } else if (text.startsWith("/edit ")) {
     var parts = text.split(" ");
     var date = parts[1];
@@ -187,37 +185,28 @@ function doPost(e) {
     } else {
       sendMessage(chatId, "⚠ Vui lòng nhập đúng định dạng: /edit dd <số giờ>");
     }
-
   } else if (text.startsWith("/xoa ")) {
     var date = text.split(" ")[1];
     deleteEntry(chatId, userId, date);
-
   } else if (text == "/tl") {
     getTotalSalary(chatId, userId);
-
   } else if (text == "/homqua") {
     getYesterdaySalary(chatId, userId);
-
   } else if (text == "/reset") {
     sendMessage(chatId, "❗ Bạn có chắc chắn muốn xóa dữ liệu? Nhập `/confirm_reset` để xác nhận.");
-
   } else if (text == "/confirm_reset") {
     if (clearUserData(userId)) {
       sendMessage(chatId, "✅ Dữ liệu của bạn đã được reset!");
     } else {
       sendMessage(chatId, "⚠ Không tìm thấy dữ liệu để xóa.");
     }
-
   } else if (text == "/thongke") {
     getStatistics(chatId, userId);
-
   } else if (text == "/export") {
     exportDataToCSV(chatId, userId);
-
   } else if (text == "/odx") {
     recordHours(chatId, userId, -6.25, -100000);
     sendMessage(chatId, "⚠ Bạn đã bị phạt -100,000 VND (-6.25 giờ).");
-
   } else if (text.startsWith("/tru ")) {
     var amount = parseFloat(text.split(" ")[1]) * 1000; // Tự động nhân 1000
     if (!isNaN(amount)) {
@@ -227,21 +216,217 @@ function doPost(e) {
     } else {
       sendMessage(chatId, "⚠ Vui lòng nhập số tiền hợp lệ!");
     }
-  }
-    else if (text == "/off") {
-  recordHours(chatId, userId, 0);
-  
-    
-}
-if (text === "/file") {
+  } else if (text == "/off") {
+    recordHours(chatId, userId, 0);
+  } else if (text === "/file") {
     sendFileToTelegram(chatId);
+  } else if (text === "/cre") {
+    sendFileToTelegramcre(chatId);
+  } 
+  // Lệnh mới: xuất ảnh biểu đồ gửi lên Telegram
+  else if (text === "/bieudoht") {
+    bieudoht(chatId, userId);
+  }else if (text === "/bieudo") {
+    bieudo(chatId, userId);
+  }
+}
+function bieudo(chatId, userId) {
+  var sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+  var data = sheet.getDataRange().getValues();
+
+  var tz = Session.getScriptTimeZone();
+  var now = new Date();
+  var currentMonth = Number(Utilities.formatDate(now, tz, "MM"));
+  var currentYear = Number(Utilities.formatDate(now, tz, "yyyy"));
+
+  // Gom lương theo từng tháng
+  var salaryByMonth = {}; // key: MM/YYYY, value: tổng lương
+
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][0]) == String(userId)) {
+      var date = new Date(data[i][1]);
+      var month = Utilities.formatDate(date, tz, "MM");
+      var year = Utilities.formatDate(date, tz, "yyyy");
+      var key = month + "/" + year;
+
+      // Chỉ tính tháng <= tháng hiện tại cùng năm, hoặc năm nhỏ hơn
+      if ((Number(year) < currentYear) || (Number(year) === currentYear && Number(month) <= currentMonth)) {
+        var salaryRaw = String(data[i][3]).replaceAll("₫", "").replaceAll(" ", "").replaceAll(",", "");
+        var salary = Number(salaryRaw.replace(/[^\d\.-]/g, ""));
+        if (isNaN(salary)) salary = 0;
+        salaryByMonth[key] = (salaryByMonth[key] || 0) + salary;
+      }
+    }
   }
 
-if (text === "/cre") {
-    sendFileToTelegramcre(chatId);
-}
-}
+  // Sắp xếp các tháng tăng dần
+  var keys = Object.keys(salaryByMonth);
+  keys.sort(function(a, b) {
+    // Định dạng a/b: MM/YYYY
+    var [ma, ya] = a.split("/").map(Number);
+    var [mb, yb] = b.split("/").map(Number);
+    if (ya !== yb) return ya - yb;
+    return ma - mb;
+  });
 
+  if (keys.length === 0) {
+    sendMessage(chatId, "⚠ Không có dữ liệu để tạo biểu đồ tổng lương các tháng.");
+    return;
+  }
+
+  // Tạo dữ liệu cho biểu đồ
+  var chartData = [["Tháng", "Tổng lương"]];
+  for (var i = 0; i < keys.length; i++) {
+    chartData.push([keys[i], salaryByMonth[keys[i]]]);
+  }
+
+  // Tiêu đề biểu đồ
+  var lastMonthLabel = keys[keys.length - 1];
+  var title = "Tổng lương các tháng (tới tháng " + lastMonthLabel + ")";
+  var caption = "📊 Biểu đồ tổng lương các tháng (tháng hiện tại tính đến hôm nay)";
+
+  // Vẽ biểu đồ cột
+  var dataTable = Charts.newDataTable()
+    .addColumn(Charts.ColumnType.STRING, "Tháng")
+    .addColumn(Charts.ColumnType.NUMBER, "Tổng lương");
+  for (var k = 1; k < chartData.length; k++) {
+    dataTable.addRow(chartData[k]);
+  }
+
+  var chart = Charts.newColumnChart()
+    .setTitle(title)
+    .setXAxisTitle("Tháng")
+    .setYAxisTitle("VND")
+    .setDimensions(900, 500)
+    .setDataTable(dataTable)
+    .build();
+
+  var blob = chart.getAs("image/png").setName("bieudo_thang.png");
+  var imgFile = DriveApp.createFile(blob);
+  imgFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  var fileId = imgFile.getId();
+  var publicPhotoUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
+
+  // Gửi qua Telegram sendPhoto (nếu không được thì gửi link)
+  var telegramUrl = "https://api.telegram.org/bot" + TOKEN + "/sendPhoto";
+  var payload = {
+    "chat_id": chatId,
+    "photo": publicPhotoUrl,
+    "caption": caption
+  };
+  var options = {
+    "method": "post",
+    "contentType": "application/json",
+    "payload": JSON.stringify(payload),
+    "muteHttpExceptions": true
+  };
+
+  var response = UrlFetchApp.fetch(telegramUrl, options);
+
+  try {
+    var result = JSON.parse(response.getContentText());
+    if (!result.ok) {
+      sendMessage(chatId, "Không gửi được ảnh trực tiếp. Xem ảnh biểu đồ tại đây: " + publicPhotoUrl);
+    }
+  } catch (e) {
+    sendMessage(chatId, "Không gửi được ảnh trực tiếp. Xem ảnh biểu đồ tại đây: " + publicPhotoUrl);
+  }
+}
+function bieudoht(chatId, userId) {
+  var sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+  var data = sheet.getDataRange().getValues();
+
+  // Xác định tháng/năm và ngày hiện tại
+  var now = new Date();
+  var tz = Session.getScriptTimeZone();
+  var monthNow = Number(Utilities.formatDate(now, tz, "MM"));
+  var yearNow = Number(Utilities.formatDate(now, tz, "yyyy"));
+  var dayNow = Number(Utilities.formatDate(now, tz, "dd"));
+
+  // Tạo map lương theo từng ngày
+  var salaryByDay = {};
+
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][0]) == String(userId)) {
+      var rawDate = new Date(data[i][1]);
+      var month = Number(Utilities.formatDate(rawDate, tz, "MM"));
+      var year = Number(Utilities.formatDate(rawDate, tz, "yyyy"));
+      if (month !== monthNow || year !== yearNow) continue;
+
+      var day = Utilities.formatDate(rawDate, tz, "dd");
+      var salaryRaw = String(data[i][3]).replaceAll("₫", "").replaceAll(" ", "").replaceAll(",", "");
+      var salary = Number(salaryRaw.replace(/[^\d\.-]/g, ""));
+      if (isNaN(salary)) salary = 0;
+
+      salaryByDay[day] = (salaryByDay[day] || 0) + salary;
+    }
+  }
+
+  // Chỉ vẽ đến ngày hiện tại
+  var chartData = [['Ngày', 'Tổng lương lũy kế']];
+  var luyKe = 0;
+
+  for (var d = 1; d <= dayNow; d++) {
+    var dayStr = d.toString().padStart(2, '0');
+    luyKe += salaryByDay[dayStr] || 0;
+    chartData.push([dayStr, luyKe]);
+  }
+
+  // Kiểm tra nếu không có dữ liệu
+  if (chartData.length === 1 || luyKe === 0) {
+    sendMessage(chatId, "⚠ Không có dữ liệu nào trong tháng này để tạo biểu đồ.");
+    return;
+  }
+
+  // Vẽ biểu đồ
+  var dataTable = Charts.newDataTable()
+    .addColumn(Charts.ColumnType.STRING, "Ngày")
+    .addColumn(Charts.ColumnType.NUMBER, "Tổng lương lũy kế");
+  for (var k = 1; k < chartData.length; k++) {
+    dataTable.addRow(chartData[k]);
+  }
+
+  var chart = Charts.newLineChart()
+    .setTitle("Tổng lương lũy kế tháng " + monthNow + "/" + yearNow)
+    .setXAxisTitle("Ngày")
+    .setYAxisTitle("VND")
+    .setDimensions(900, 500)
+    .setCurveStyle(Charts.CurveStyle.SMOOTH)
+    .setDataTable(dataTable)
+    .build();
+
+  var blob = chart.getAs("image/png").setName("bieudo.png");
+  var imgFile = DriveApp.createFile(blob);
+  imgFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  var fileId = imgFile.getId();
+  var publicPhotoUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
+
+  // Gửi qua Telegram sendPhoto (nếu không được thì gửi link)
+  var telegramUrl = "https://api.telegram.org/bot" + TOKEN + "/sendPhoto";
+  var payload = {
+    "chat_id": chatId,
+    "photo": publicPhotoUrl,
+    "caption": "📊 Biểu đồ tổng lương lũy kế tháng " + monthNow + "/" + yearNow + " (tới ngày " + dayNow + ")"
+  };
+  var options = {
+    "method": "post",
+    "contentType": "application/json",
+    "payload": JSON.stringify(payload),
+    "muteHttpExceptions": true
+  };
+
+  var response = UrlFetchApp.fetch(telegramUrl, options);
+
+  // Nếu gửi ảnh lỗi, gửi link
+  try {
+    var result = JSON.parse(response.getContentText());
+    if (!result.ok) {
+      sendMessage(chatId, "Không gửi được ảnh trực tiếp. Xem ảnh biểu đồ tại đây: " + publicPhotoUrl);
+    }
+  } catch (e) {
+    sendMessage(chatId, "Không gửi được ảnh trực tiếp. Xem ảnh biểu đồ tại đây: " + publicPhotoUrl);
+  }
+}
 // Hàm để tránh lỗi do thiếu doGet
 function doGet(e) {
   return ContentService.createTextOutput("Bot đang hoạt động!");
