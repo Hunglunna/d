@@ -3,43 +3,28 @@ const TELEGRAM_API_BASE = 'https://api.telegram.org';
 
 // HTML template for root path (docs)
 const DOC_HTML = `<!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Telegram Bot API Proxy</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hiển thị trang HungLunNa</title>
   <style>
-    body { font-family: sans-serif; padding: 2rem; max-width: 800px; margin: auto; }
-    .code { background: #f4f4f4; padding: 1rem; border-radius: 5px; font-family: monospace; overflow-x: auto; }
-    .note { background: #fff3cd; padding: 1rem; border-left: 5px solid #ffc107; margin: 1rem 0; }
-    .example { background: #e7f5ff; padding: 1rem; border-left: 5px solid #00aaff; margin: 1rem 0; }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body>
-  <h1>🔄 Telegram Bot API Proxy</h1>
-  <p>This Cloudflare Worker acts as a proxy for Telegram Bot API. Replace <code>api.telegram.org</code> with this Worker’s URL in your bot.</p>
-
-  <h2>🔧 Usage</h2>
-  <div class="example">
-    <p><strong>Original API call:</strong></p>
-    <div class="code">https://api.telegram.org/bot&lt;TOKEN&gt;/sendMessage</div>
-    <p><strong>Use via proxy:</strong></p>
-    <div class="code">https://&lt;YOUR-WORKER-SUBDOMAIN&gt;.workers.dev/bot&lt;TOKEN&gt;/sendMessage</div>
-  </div>
-
-  <h2>✅ Features</h2>
-  <ul>
-    <li>Supports all Bot API methods</li>
-    <li>Handles GET, POST, form-data, JSON</li>
-    <li>Full CORS support</li>
-    <li>Transparent forwarding of Telegram responses</li>
-  </ul>
-
-  <div class="note">
-    <strong>Note:</strong> This proxy doesn’t log or store your bot tokens. All data is passed directly to Telegram servers.
-  </div>
+  <iframe src="https://hunglunna.github.io/hunglunna/" title="Trang HungLunNa"></iframe>
 </body>
-</html>`;
+</html>
+`;
 
 async function handleRequest(request) {
   const url = new URL(request.url);
