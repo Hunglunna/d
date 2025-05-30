@@ -1,6 +1,6 @@
 // Version 1.1.1 - Được phát triển vào ngày 25/05/2025. 
-var TOKEN = "8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88";
-var SHEET_ID = "188d1O8r5nc3hzXADyvBNz_fLFfr6hUt626F2IlhMRrk";
+var TOKEN = "a";
+var SHEET_ID = "a";
 var SHEET_NAME = "Lương";
 function setupSheet() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet(); 
