@@ -1,4 +1,4 @@
-// Version 1.1.1 - Được phát triển vào ngày 25/05/2025. 
+// Version 1.1.1 - Được phát triển vào ngày 30/05/2025. 
 var TOKEN = "8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88";
 var SHEET_ID = "188d1O8r5nc3hzXADyvBNz_fLFfr6hUt626F2IlhMRrk";
 var SHEET_NAME = "Lương";
@@ -23,9 +23,9 @@ function setupSheet() {
   sheet.getRange("D2:D").setNumberFormat("#,##0.000 đ"); 
 }
 function setTelegramWebhook() {
-  var url = "https://api.telegram.org/bot8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88/setWebhook";
+  var url = "https://ancient-salad-f2b2.testhungw.workers.dev/bot8186873023:AAG5reANeWePskwUBRx6W-Yk8rqv4H1oI88/setWebhook";
   var payload = {
-    "url": "https://script.google.com/macros/s/AKfycbxTeASkaxqmSc0Mpss82MN5d0t7-H1BXs1kODRgNLtZVtZTxG7sQ03LXtoBfTBWCEQo/exec"
+    "url": "https://script.google.com/macros/s/AKfycbzpksvOUsmnv3fC2J1kkcep7_trcVA_K3Qf5iUJ2MSqEye8SewctqHTwwCVHp_y240j/exec"
   };
   
   var options = {
@@ -130,7 +130,7 @@ function t2() {
     }
 
     const message = `📊 Báo cáo tháng trước:\n🕒 Tổng giờ làm: ${monthlyHours} giờ\n💰 Tổng lương: ${monthlySalary.toLocaleString()} VND`;
-    const url = `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+    const url = `https://ancient-salad-f2b2.testhungw.workers.dev/bot${TOKEN}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
     try {
       const response = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
@@ -350,7 +350,7 @@ function bieudo(chatId, userId) {
   var publicPhotoUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
 
   // Gửi qua Telegram sendPhoto (nếu không được thì gửi link)
-  var telegramUrl = "https://api.telegram.org/bot" + TOKEN + "/sendPhoto";
+  var telegramUrl = "https://ancient-salad-f2b2.testhungw.workers.dev/bot" + TOKEN + "/sendPhoto";
   var payload = {
     "chat_id": chatId,
     "photo": publicPhotoUrl,
@@ -444,7 +444,7 @@ function bieudoht(chatId, userId) {
   var publicPhotoUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
 
   // Gửi qua Telegram sendPhoto (nếu không được thì gửi link)
-  var telegramUrl = "https://api.telegram.org/bot" + TOKEN + "/sendPhoto";
+  var telegramUrl = "https://ancient-salad-f2b2.testhungw.workers.dev/bot" + TOKEN + "/sendPhoto";
   var payload = {
     "chat_id": chatId,
     "photo": publicPhotoUrl,
@@ -549,7 +549,7 @@ function exportDataToCSV(chatId, userId) {
 
   var message = "📎 Tải file CSV [tại đây](" + downloadUrl + ")"; // Markdown link
 
-  var url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+  var url = `https://ancient-salad-f2b2.testhungw.workers.dev/bot${TOKEN}/sendMessage`;
   var payload = {
     "chat_id": chatId,
     "text": message,
@@ -810,7 +810,7 @@ function sendFileToTelegram(chatId) {
   var fileUrl = "https://raw.githubusercontent.com/Hunglunna/d/refs/heads/master/a.js"; 
   var message = "📎 Tải xuống tệp tin [tại đây](" + fileUrl + ")"; // Markdown link
 
-  var url = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+  var url = `https://ancient-salad-f2b2.testhungw.workers.dev/bot${TOKEN}/sendMessage`;
   var payload = {
     "chat_id": chatId,
     "text": message,
@@ -852,13 +852,13 @@ function sendFileToTelegramcre(chatId) {
     payload: JSON.stringify(payload)
   };
 
-  var url = `https://api.telegram.org/bot${TOKEN}/sendPhoto`;
+  var url = `https://ancient-salad-f2b2.testhungw.workers.dev/bot${TOKEN}/sendPhoto`;
   UrlFetchApp.fetch(url, options);
 }
 
 
 
 function sendMessage(chatId, text) {
-  var url = `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+  var url = `https://ancient-salad-f2b2.testhungw.workers.dev/bot${TOKEN}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
   UrlFetchApp.fetch(url);
 }
