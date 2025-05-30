@@ -807,7 +807,7 @@ function clearUserData(userId) {
 
 function sendFileToTelegram(chatId) {
   
-  var fileUrl = "https://raw.githubusercontent.com/Hunglunna/d/refs/heads/master/a.js"; 
+  var fileUrl = "https://raw.githubusercontent.com/Hunglunna/hung/refs/heads/master/bot.js"; 
   var message = "📎 Tải xuống tệp tin [tại đây](" + fileUrl + ")"; // Markdown link
 
   var url = `https://ancient-salad-f2b2.testhungw.workers.dev/bot${TOKEN}/sendMessage`;
